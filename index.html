@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Yummy Site" />
+  <meta name="keywords" content=" Yummy , Food Site " />
+  <meta name="author" content="Mohamed Saeid " />
+  <title>Yummy</title>
+  <!-- ? material design icons  -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+  <!-- ? BootStrap5.2.3 Css  -->
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <!-- ? -------- Main Css File -------- -->
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+
+<body>
+  <section id="sideBar">
+    <div class="leftSide text-white d-flex flex-column justify-content-between p-4">
+      <ul class="list-unstyled h6 position-relative overflow-hidden">
+        <li onclick="searchCom()">Search</li>
+        <li onclick="categoryData()">Categories</li>
+        <li onclick="areaCom()">Area</li>
+        <li onclick="ingredientsCom()">Ingredients</li>
+        <li onclick="ContactCom()">Contact Us</li>
+      </ul>
+      <div class="icons">
+        <i class="fa-brands fa-facebook"></i>
+        <i class="fa-brands fa-twitter"></i>
+        <i class="fa-solid fa-globe"></i>
+        <p>Copyright Â© 2019 All Rights
+          <br>
+          Reserved.
+        </p>
+      </div>
+    </div>
+    <div class="rightSide d-flex flex-column justify-content-between bg-white align-items-center p-1">
+      <img src="./img/logo.png" alt="this picture is not found">
+      <i class="fa-solid fa-bars here"></i>
+      <div>
+        <a href="" class="text-black"><i class="fa-solid fa-globe d-block"></i></a>
+        <a href="" class="text-black "><i class="fa-solid fa-share-nodes my-3"></i></a>
+      </div>
+    </div>
+  </section>
+
+
+  
+<section id="search" class="d-none">
+<div class="row p-4 w-75 m-auto">
+  <div class="col-md-6">
+    <input onkeyup="searchByName(this.value)" class="form-control bg-transparent text-white " type="text" placeholder="Search By name">
+  </div>
+  <div class="col-md-6">
+    <input onkeyup="searchByChar(this.value)" class="form-control bg-transparent text-white" type="search" placeholder="Search By name">
+  </div>
+</div>
+</section>
+
+<section id="main">
+  <div class="container">
+  <div class="row py-5 g-4 text-white there">
+  </div>
+</div>
+</section>
+
+<div class="loading ">
+  <span class="loader"></span>
+</div>
+
+
+
+
+  <!-- ! Jquery Js File -->
+  <script src="./js/jquery-3.6.3.min.js"></script>
+  <!-- ! Main Js File -->
+  <script src="./js/main.js"></script>
+</body>
+
+</html>
