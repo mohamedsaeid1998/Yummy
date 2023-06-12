@@ -24,6 +24,10 @@ getData()
   }
 
   function displayData(data) {
+    console.log(data);
+    if (data===null){
+      return;
+    }
     let box = ``;
     for (let i = 0; i < data.length; i++) {
       box += `
@@ -80,24 +84,23 @@ if (data[`strIngredient${i}`]){
     <div class="col-md-4">
     <div class="imgs">
       <img class= "w-100  rounded-4"  src="${data.strMealThumb}" alt="">
-      <p class="fw-bold text-center mt-2 h2">${data.strMeal}</p>
+      <p class="fw-bold gold text-center  mt-2 h2">${data.strMeal}</p>
     </div>
   </div>
   <div class="col-md-8">
     <h2>Instructions : <span class="backPage" onclick="back()">home</span> -</h2>
   <p>${data.strInstructions}</p>
-    <p class="fw-bold h3">Area : ${data.strArea}</p>
+    <p class="fw-bold  h3"> Area: ${data.strArea}</p>
     <p class="fw-bold h3">Category : ${data.strCategory}</p>
-    <p class="fw-bold h3">Recipes :- </p>
+    <p class="fw-bold topicss h3">Recipes :- </p>
     <ul class="list-unstyled d-flex g-3 flex-wrap">
     ${recipes}
     </ul>
-    <p class="fw-bold h3">Tags :- </p>
-
-
+    ${tags?`    <p class="fw-bold topics h3">Tags :- </p>
     <ul class="list-unstyled d-flex g-3 flex-wrap">
     ${tags}
-    </ul>
+    </ul>`:''}
+
     <a href=${data.strSource} class="btn btn-success me-1 fw-bold" target="_blank">Source</a>
     <a href=${data.strYoutube} class="btn btn-danger fw-bold" target="_blank">Youtube</a>
 
@@ -135,17 +138,19 @@ async function searchByName(name){
   mainData.innerHTML=''
   const apiResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${name}`)
   const response = await apiResponse.json();
+  $('.loading').removeClass('d-none')
   displayData(response.meals)
+  $('.loading').addClass('d-none')
 }
 
 
 async function searchByChar(char){
   mainData.innerHTML=''
-
 const apiResponse = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${char}`)
 const response = await apiResponse.json();
+$('.loading').removeClass('d-none')
 displayData(response.meals)
-
+$('.loading').addClass('d-none')
 }
 
 
@@ -159,14 +164,14 @@ mainData.innerHTML =""
 
 function categoryData(){
   mainData.innerHTML =""
-  $('#search').addClass("d-none")
+
   categoryCards()
   }
 
 
 async function categoryCards(){
+  $('.search').addClass("d-none")
   $('.loading').removeClass('d-none')
-
   const api = await fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
   const response = await api.json()
   displayCategoryData(response.categories)
@@ -300,6 +305,7 @@ async function ingredientsDetails() {
       mainData.innerHTML =`
       <div class="contact min-vh-100 d-flex justify-content-center align-items-center">
       <div class="container w-75 text-center">
+      <form class='form' oninput="validation()">
           <div class="row g-4">
               <div class="col-md-6">
                   <input id="nameInput" onkeyup="nameValidation()" type="text" class="form-control" placeholder="Enter Your Name">
@@ -337,8 +343,10 @@ async function ingredientsDetails() {
                       Enter valid repassword 
                   </div>
               </div>
+
           </div>
-          <button id="submitBtn" disabled class="btn btn-outline-danger px-2 mt-3">Submit</button>
+          <button type='submit' id="submitBtn" disabled class="btn btn-outline-danger px-2 mt-3">Submit</button>
+          </form>
       </div>
     </div> 
     `;
@@ -347,15 +355,17 @@ async function ingredientsDetails() {
 
     function nameValidation(){
       let input =document.getElementById("nameInput")
-      const regex = /^[a-z ]+$/ig
+      const regex = /^[a-z]+$/ig
       if(regex.test(input.value)){
         $(input).addClass("is-valid")
         $(input).removeClass("is-invalid")
         $("#nameAlert").addClass("d-none")
+        return true;
       }else{
         $(input).addClass("is-invalid")
         $(input).removeClass("is-valid")
         $("#nameAlert").removeClass("d-none")
+        return false;
       }
     }
 
@@ -366,10 +376,12 @@ async function ingredientsDetails() {
         $(input).addClass("is-valid")
         $(input).removeClass("is-invalid")
         $("#emailAlert").addClass("d-none")
+        return true;
       }else{
         $(input).addClass("is-invalid")
         $(input).removeClass("is-valid")
         $("#emailAlert").removeClass("d-none")
+        return false;
       }
     }
 
@@ -380,10 +392,12 @@ async function ingredientsDetails() {
         $(input).addClass("is-valid")
         $(input).removeClass("is-invalid")
         $("#phoneAlert").addClass("d-none")
+        return true;
       }else{
         $(input).addClass("is-invalid")
         $(input).removeClass("is-valid")
         $("#phoneAlert").removeClass("d-none")
+        return false;
       }
     }
 
@@ -394,10 +408,12 @@ async function ingredientsDetails() {
         $(input).addClass("is-valid")
         $(input).removeClass("is-invalid")
         $("#ageAlert").addClass("d-none")
+        return true;
       }else{
         $(input).addClass("is-invalid")
         $(input).removeClass("is-valid")
         $("#ageAlert").removeClass("d-none")
+        return false;
       }
     }
 
@@ -409,31 +425,38 @@ async function ingredientsDetails() {
         $(input).addClass("is-valid")
         $(input).removeClass("is-invalid")
         $("#passwordAlert").addClass("d-none")
+        return true;
       }else{
         $(input).addClass("is-invalid")
         $(input).removeClass("is-valid")
         $("#passwordAlert").removeClass("d-none")
+        return false;
       }
     }
 
     function repassValidation() {
       let input = document.getElementById("passwordInput")
       let secinput = document.getElementById("repasswordInput")
-      if(input.value == secinput.value){
+      if(input.value === secinput.value){
         $(input).addClass("is-valid")
         $(input).removeClass("is-invalid")
         $("#repasswordAlert").addClass("d-none")
+        return true;
       }else{
         $(input).addClass("is-invalid")
         $(input).removeClass("is-valid")
         $("#repasswordAlert").removeClass("d-none")
+        return false;
       }
     }
+    
+  function validation(){
+  console.log('hello');
+  if(nameValidation() && emailValidation() && phoneValidation() && ageValidation() && passValidation() && repassValidation()){
+    $('#submitBtn').removeAttr('disabled')
+    console.log('here');
+  }
+  }
 
-    function checkValidation(){
-      if(nameValidation() && emailValidation() && phoneValidation() && ageValidation() && passValidation() && repassValidation()){
-        $('#submitBtn').removeAttr('disabled')
-      }
-    }
 
-    checkValidation()
+
